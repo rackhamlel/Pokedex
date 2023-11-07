@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="monFormulaire">>
+
+    <label for="chiffre">Entrez l'id du pokémon :</label>
+    <input type="number" id="chiffre" name="chiffre">
+    <button type="submit">Envoyer</button>
+    </form>
+
+    <script>
+        document.getElementById("monFormulaire").addEventListener("submit", function(event) {
+            event.preventDefault(); // Empêche l'envoi par défaut du formulaire
+
+            var chiffre = document.getElementById("chiffre").value;
+
+            fetch("index.js", {
+                method: "POST",
+                body: JSON.stringify({ chiffre: chiffre }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Gérer la réponse de "index.js" ici si nécessaire
+                console.log(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+    </script>
+</body>
+</html>

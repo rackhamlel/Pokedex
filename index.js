@@ -31,11 +31,11 @@ app.listen(port, '127.0.0.1',
 
 // Crée la route qui renvoie tout
 
-app.get('/',
-    findAllPokemon
-);
-
-// fonction
+app.get('/', findAllPokemon);
+app.get('/random', RandomPokemon);  
+app.get('/pokemon/:id', FindPokemon);  
+app.get('/nom/:name', NomPokemon)
+    // fonction
 function findAllPokemon(request, response)
 {
     // Lecture du fichier
@@ -46,7 +46,7 @@ function findAllPokemon(request, response)
 
     // Renvoie tout le json interprété
 
-    //response.send(pokedex);
+    response.send(pokedex);
 }
 
 function RandomPokemon(request, response){
@@ -63,7 +63,31 @@ function RandomPokemon(request, response){
 
 
 
-    // Renvoie tout le json interprété
+    // Renvoin le json interprété random
 
     response.send(pokedex[random]);
+}
+function FindPokemon(request, response){
+    const id = request.params.id; // Récupérez le id depuis les paramètres de l'URL
+    // Lecture du fichier
+    let data = fs.readFileSync(POKEDEX);
+
+    // Analyse du JSON
+    let pokedex = JSON.parse(data);
+
+    // envoie du pokémon
+    response.send(pokedex[id-1]);
+}
+function NomPokemon(request, response){
+
+    // Lecture du fichier
+    let data = fs.readFileSync(POKEDEX);
+
+    // Analyse du JSON
+    let pokedex = JSON.parse(data);
+
+    let nom = request.params.name;
+
+    const result = pokedex.filter((pokemon) => pokemon.name.french === nom);
+    response.send(result);
 }

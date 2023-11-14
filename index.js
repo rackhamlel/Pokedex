@@ -2,8 +2,12 @@
  *  Serveur Backend Pokedex
  */
 
-console.log("Hellow World!");
-const fs= require('fs');
+
+var express = require('express')
+var cors = require('cors')
+var app = express()
+
+app.use(cors())
 
 // Définir l'emplacement des fichiers bases de données
 
@@ -18,9 +22,8 @@ const IMAGE_POKEMON = "./FILES/images";
 const port = 5001;
 
 // lancer un serveur express
-const express = require('express');
 
-const app = express();
+
 
 // lancer le serveur et attendre
 app.listen(port, '127.0.0.1',
@@ -36,18 +39,37 @@ app.get('/random', RandomPokemon);
 app.get('/pokemon/:id', FindPokemon);  
 app.get('/nom/:name', NomPokemon)
     // fonction
-function findAllPokemon(request, response)
-{
+function findAllPokemon(request, response) {
     // Lecture du fichier
     let data = fs.readFileSync(POKEDEX);
 
     // Analyse du JSON
     let pokedex = JSON.parse(data);
 
-    // Renvoie tout le json interprété
+    
+    response.json(pokedex);
 
-    response.send(pokedex);
+
+    /*let addcolonne = "<tbody>";
+
+    for (let index = 0; index < pokedex.length; index++) {
+        addcolonne += "<tr>";
+        addcolonne += "<td>" + pokedex[index].id + "</td>";
+        addcolonne += "<td>" + pokedex[index].name.french + "</td>";
+        addcolonne += "<td>" + pokedex[index].type.join(", ") + "</td>";
+        addcolonne += "<td>" + "picture" + "</td>";
+        addcolonne += "</tr>";
+    }
+    addcolonne += "</tbody>";
+    document.getElementById("tableau").innerHTML += addcolonne;
+
+    // Afficher les données côté serveur
+    //console.log(addcolonne);
+
+    // Renvoie tout le HTML du tableau
+    response.send(addcolonne);*/
 }
+
 
 function RandomPokemon(request, response){
 

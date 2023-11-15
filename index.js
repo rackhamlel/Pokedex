@@ -6,9 +6,9 @@
 var express = require('express')
 var cors = require('cors')
 var app = express()
-
+const fs= require('fs');
 app.use(cors())
-
+app.use(express.static('FILES'));
 // Définir l'emplacement des fichiers bases de données
 
 const POKEDEX = "./DATA/pokedex.json";
@@ -50,24 +50,7 @@ function findAllPokemon(request, response) {
     response.json(pokedex);
 
 
-    /*let addcolonne = "<tbody>";
-
-    for (let index = 0; index < pokedex.length; index++) {
-        addcolonne += "<tr>";
-        addcolonne += "<td>" + pokedex[index].id + "</td>";
-        addcolonne += "<td>" + pokedex[index].name.french + "</td>";
-        addcolonne += "<td>" + pokedex[index].type.join(", ") + "</td>";
-        addcolonne += "<td>" + "picture" + "</td>";
-        addcolonne += "</tr>";
-    }
-    addcolonne += "</tbody>";
-    document.getElementById("tableau").innerHTML += addcolonne;
-
-    // Afficher les données côté serveur
-    //console.log(addcolonne);
-
-    // Renvoie tout le HTML du tableau
-    response.send(addcolonne);*/
+    
 }
 
 
